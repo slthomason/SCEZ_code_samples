@@ -1,0 +1,47 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+
+<div class="text-center">
+    <img style="height: 150px;" src="~/scez.jpg" />
+    <br />
+    <br />
+    <h1 class="display-4">Mint NFT</h1>
+    <section>
+        <div class="row">
+            <div class="col-2">
+            </div>
+            <div class="col-8">
+                <form method="post" enctype="multipart/form-data">
+
+                    <select id="ddlNetType" asp-for="NftModel.NetworkType" class="form-control">
+                        <option value="testnet">Testnet</option>
+                        <option value="mainnet">Mainnet</option>
+                    </select>
+                    <br />
+                    <input id="txtTokenName" asp-for="NftModel.TokenName" type="text" class="form-control" placeholder="Enter token name" />
+                    <br />
+                    <input id="txtDescription" asp-for="NftModel.Description" type="text" class="form-control" placeholder="Enter NFT description" />
+                    <br />
+                    <input type="file" asp-for="NftModel.FormFile" />
+                    <br />
+                    <br />
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                </form>
+                @if (ViewData["JavaScript"] != null)
+                {
+                    <script>
+                        @Html.Raw(ViewData["JavaScript"])
+                    </script>
+                }
+
+            </div>
+            <div class="col-2">
+            </div>
+        </div>
+    </section>
+
+</div>
