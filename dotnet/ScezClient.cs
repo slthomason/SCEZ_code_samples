@@ -1,4 +1,5 @@
 ﻿using aspnet_dotnet.Models;
+using dotnet.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -129,7 +130,7 @@ namespace aspnet_dotnet
         /// Fetch Wallet Balance and Profile Data
         /// </summary>
         /// <returns></returns>
-        public async Task GetWalletBalance()
+        public async Task<WalletBalance?> GetWalletBalance()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "wallet/balance");
             var requestContent = new StringContent("");
@@ -139,9 +140,48 @@ namespace aspnet_dotnet
             {
                 response.EnsureSuccessStatusCode();
                 var body = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(body);
+                return JsonSerializer.Deserialize<WalletBalance>($"{body}");
+            }
+
+
+        }
+
+        /// <summary>
+        /// Get all NFT orders
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<NftOrder>?> GetNftOrders()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, "nft/list");
+            var requestContent = new StringContent("");
+            requestContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            request.Content = requestContent;
+            using (var response = await _restApiClient.SendAsync(request))
+            {
+                response.EnsureSuccessStatusCode();
+                var body = await response.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<List<NftOrder>>($"{body}");
             }
         }
+
+        /// <summary>
+        /// Get all transactions
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Transactions>?> GetTransactions()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, "user/transactions/list");
+            var requestContent = new StringContent("");
+            requestContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            request.Content = requestContent;
+            using (var response = await _restApiClient.SendAsync(request))
+            {
+                response.EnsureSuccessStatusCode();
+                var body = await response.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<List<Transactions>>($"{body}");
+            }
+        }
+
 
         /// <summary>
         /// Default HttpClient Instance
