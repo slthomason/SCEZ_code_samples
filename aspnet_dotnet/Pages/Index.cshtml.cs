@@ -19,15 +19,21 @@ namespace aspnet_dotnet.Pages
         [BindProperty]
         public NftModel NftModel { get; set; }
 
-        public void OnGet()
+        [BindProperty]
+        public WalletBalance? WalletBalance { get; set; }
+
+        public async Task OnGetAsync()
         {
+            var scezClient = new ScezClient(ApiKey, BaseUrl);
+            this.WalletBalance = await scezClient.GetWalletBalance();
+
         }
 
         public async Task OnPostAsync()
         {
 
             //Mainnet config
-            if(NftModel.NetworkType == "mainnet")
+            if (NftModel.NetworkType == "mainnet")
             {
                 BaseUrl = "https://api.smartcontractsez.com/api/v1/";
                 ApiKey = "21140209e56752bfcdd10e5c34ce74e8";
@@ -36,6 +42,13 @@ namespace aspnet_dotnet.Pages
 
             if (NftModel.FormFile.Length > 0)
             {
+
+                //Ensure default wallet address is added if not exists already
+                if (WalletBalance?.DefaultWalletId <= 0)
+                {
+                    await scezClient.CreateWallet(NftModel.WalletAddress, "default");
+                }
+
                 using (var ms = new MemoryStream())
                 {
                     NftModel.FormFile.CopyTo(ms);
@@ -52,7 +65,7 @@ namespace aspnet_dotnet.Pages
                 }
             }
 
-            
+
 
         }
 

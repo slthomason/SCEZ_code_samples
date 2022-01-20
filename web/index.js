@@ -12,6 +12,20 @@ document.querySelector('#formFile').addEventListener('change', event => {
     handleImageUpload(event)
 })
 
+var default_wallet_id = 0;
+
+var that = this;
+getWalletBalance().then(data => {
+
+    that.default_wallet_id = data['default_wallet_id'];
+    console.log(that.default_wallet_id);
+    if (that.default_wallet_id <= 0)
+        document.getElementById('txtWalletAddress').style.display = "block";
+
+});
+
+
+
 function minNft() {
 
 
@@ -33,6 +47,30 @@ function minNft() {
         if (tokenName == '' || description == '' || input.files.length == 0) {
             alert('Required fields missing!');
             return;
+
+        }
+
+        //Ensure detault wallet address is added where minted NFT will be sent to if not exists already
+
+        if (that.default_wallet_id <= 0) {
+
+            var walletName = document.getElementById('txtWalletAddress').value;
+
+            if (walletName == '') {
+                alert('Add valid ADA address');
+                return;
+
+            }
+
+            var jsonData = {
+                wallet_address: walletName,
+                wallet_name: "default"
+            }
+
+            createWallet(jsonData).then(data => {
+                console.log(data);
+
+            });
 
         }
 
@@ -65,11 +103,24 @@ function minNft() {
                 });
             }
         });
+
     } catch (error) {
         console.error(error);
     }
 }
 
+//Get wallet balance
+async function getWalletBalance() {
+
+    try {
+        var url = base_url + 'wallet/balance';
+        const responseData = await getData(url, api_key);
+        console.log({ responseData });
+        return responseData;
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 //Get wallets
 async function getWallets() {
@@ -77,6 +128,19 @@ async function getWallets() {
     try {
         var url = base_url + 'wallet/list';
         const responseData = await getData(url, api_key);
+        console.log({ responseData });
+        return responseData;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+//Create Wallet
+async function createWallet(data) {
+
+    try {
+        var url = base_url + 'wallet';
+        const responseData = await postData(url, api_key, data);
         console.log({ responseData });
         return responseData;
     } catch (error) {

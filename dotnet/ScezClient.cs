@@ -29,8 +29,8 @@ namespace aspnet_dotnet
         /// <returns></returns>
         public async Task<NftImage?> MintNft(string TokenName, string Description, string FilePath)
         {
-
             //Step #1: Get Default Wallet(Where minted NFT will be sent)
+            //Just to ensure wallet exists
             var wallets = await GetWallets();
             if (wallets != null)
             {
@@ -46,6 +46,51 @@ namespace aspnet_dotnet
             return null;
         }
 
+        /// <summary>
+        /// Add default ADA wallet
+        /// </summary>
+        /// <param name="WalletAddress"></param>
+        /// <param name="WalletName"></param>
+        /// <returns></returns>
+        public async Task<Wallet?> CreateWallet(string WalletAddress, string WalletName)
+        {
+
+            var nftData = new
+            {
+                wallet_address = WalletAddress,// Valid ADA address
+                wallet_name = WalletName,//Friendly name
+            };
+            var nft = JsonSerializer.Serialize(nftData);
+            var request = new HttpRequestMessage(HttpMethod.Post, "wallet");
+            var requestContent = new StringContent(nft, Encoding.UTF8);
+            requestContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            request.Content = requestContent;
+            using (var response = await _restApiClient.SendAsync(request))
+            {
+                response.EnsureSuccessStatusCode();
+                var body = await response.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<Wallet>($"{body}");
+            }
+
+        }
+
+        /// <summary>
+        /// Step #1: Get Default Wallet
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Wallet>?> GetWallets()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, "wallet/list");
+            var requestContent = new StringContent("");
+            requestContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            request.Content = requestContent;
+            using (var response = await _restApiClient.SendAsync(request))
+            {
+                response.EnsureSuccessStatusCode();
+                var body = await response.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<List<Wallet>>($"{body}");
+            }
+        }
 
         /// <summary>
         /// Step #2: Create NFT
@@ -86,7 +131,7 @@ namespace aspnet_dotnet
         /// <returns></returns>
         public async Task<NftImage?> UploadNftImage(string OrderID, string FilePath)
         {
-         
+
             // Add the image:
             byte[] fileBytes = null;
             using (var fileStream = new FileStream(@FilePath, FileMode.Open))
@@ -105,25 +150,6 @@ namespace aspnet_dotnet
                 return JsonSerializer.Deserialize<NftImage>($"{body}");
             }
 
-        }
-
-
-        /// <summary>
-        /// Step #1: Get Default Wallet
-        /// </summary>
-        /// <returns></returns>
-        public async Task<List<Wallet>?> GetWallets()
-        {
-            var request = new HttpRequestMessage(HttpMethod.Get, "wallet/list");
-            var requestContent = new StringContent("");
-            requestContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            request.Content = requestContent;
-            using (var response = await _restApiClient.SendAsync(request))
-            {
-                response.EnsureSuccessStatusCode();
-                var body = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<List<Wallet>>($"{body}");
-            }
         }
 
         /// <summary>

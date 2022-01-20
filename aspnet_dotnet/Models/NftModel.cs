@@ -2,7 +2,8 @@
 {
     public class NftModel
     {
-         public string NetworkType { get; set; }
+        public string WalletAddress { get; set; }
+        public string NetworkType { get; set; }
 
         public string TokenName { get; set; }
 

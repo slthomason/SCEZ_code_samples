@@ -13,14 +13,22 @@ Console.Write(Environment.NewLine);
 
 //Get nft orders
 var nftOrders = await scezClient.GetNftOrders();
-Console.WriteLine(JsonSerializer.Serialize(nftOrders));
-Console.Write(Environment.NewLine);
+//Console.WriteLine(JsonSerializer.Serialize(nftOrders));
+//Console.Write(Environment.NewLine);
 
 //Get transactions
 var txn = await scezClient.GetTransactions();
-Console.WriteLine(JsonSerializer.Serialize(txn));
-Console.Write(Environment.NewLine);
+//Console.WriteLine(JsonSerializer.Serialize(txn));
+//Console.Write(Environment.NewLine);
 
+//If DefaultWalletId > 0 then go ahead else add new wallet address where minted NFT will be sent 
+if (wallet?.DefaultWalletId <= 0)
+{
+    Console.WriteLine("Enter a valid ADA address address where minted NFT will be sent");
+    var WalletAddress = Console.ReadLine() ?? "";
+    var WalletName = "default";
+    await scezClient.CreateWallet(WalletAddress, WalletName);
+}
 
 //Mint NFT
 var TokenName = "MyAwesomeNFT";
