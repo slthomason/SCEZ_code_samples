@@ -40,11 +40,11 @@ namespace aspnet_dotnet.Pages
                 {
                     NftModel.FormFile.CopyTo(ms);
                     var fileBytes = ms.ToArray();
-                    //var nftImage = await scezClient.MintNft(NftModel.TokenName, NftModel.Description, fileBytes, NftModel.FormFile.FileName);
-                    //if(nftImage != null)
-                    //{
-                    //    ModelState.Clear();
-                    //}
+                    var nftImage = await scezClient.MintNft(NftModel.TokenName, NftModel.Description, fileBytes, NftModel.FormFile.FileName);
+                    if (nftImage != null)
+                    {
+                        ModelState.Clear();
+                    }
 
                     ViewData["JavaScript"] = "window.location = '" + Url.Page("Index") + "'";
 

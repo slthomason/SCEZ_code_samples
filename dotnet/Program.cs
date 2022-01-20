@@ -27,8 +27,8 @@ var TokenName = "MyAwesomeNFT";
 var Description = "This is my Awesome NFT";
 var FileName = "logo100.png";
 var FilePath = Path.Combine(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName), FileName);
-//var nftImage = await scezClient.MintNft(TokenName, Description, FilePath);
-//Console.WriteLine(JsonSerializer.Serialize(nftImage));
+var nftImage = await scezClient.MintNft(TokenName, Description, FilePath);
+Console.WriteLine(JsonSerializer.Serialize(nftImage));
 
 
 
