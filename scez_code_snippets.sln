@@ -28,6 +28,26 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "web", "web\", "{7DEC0652-61
 		SlnRelativePath = "web\"
 	EndProjectSection
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "php", "php\", "{22636276-DD98-4382-BE5A-DF8CFCE65D30}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_55380"
+		Debug.AspNetCompiler.PhysicalPath = "php\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_55380\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_55380"
+		Release.AspNetCompiler.PhysicalPath = "php\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_55380\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "55380"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +66,10 @@ Global
 		{7DEC0652-61E9-4221-801C-05C8A2F1A732}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DEC0652-61E9-4221-801C-05C8A2F1A732}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{7DEC0652-61E9-4221-801C-05C8A2F1A732}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{22636276-DD98-4382-BE5A-DF8CFCE65D30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22636276-DD98-4382-BE5A-DF8CFCE65D30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22636276-DD98-4382-BE5A-DF8CFCE65D30}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{22636276-DD98-4382-BE5A-DF8CFCE65D30}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
