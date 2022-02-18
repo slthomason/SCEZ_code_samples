@@ -25,88 +25,39 @@ namespace aspnet_dotnet
         /// <param name="TokenName"></param>
         /// <param name="Description"></param>
         /// <param name="FilePath"></param>
-        /// <param name="FileName"></param>
+        /// <param name="PassPhrase"></param>
         /// <returns></returns>
-        public async Task<NftImage?> MintNft(string TokenName, string Description, string FilePath)
+        public async Task<NftImage?> MintNft(string TokenName, string Description, string FilePath, string PassPhrase)
         {
-            //Step #1: Get Default Wallet(Where minted NFT will be sent)
-            //Just to ensure wallet exists
-            var wallets = await GetWallets();
-            if (wallets != null)
+            //Step #1: Create NFT
+            var nft = await CreateNft(TokenName, Description, PassPhrase);
+            if (nft != null)
             {
-                var defaultWallet = wallets.FirstOrDefault();
-                //Step #2: Create NFT
-                var nft = await CreateNft(TokenName, Description, defaultWallet?.Id);
-                if (nft != null)
-                {
-                    //Step #3: Upload NFT Image
-                    return await UploadNftImage(nft.OrderID, FilePath);
-                }
+                //Step #2: Upload NFT Image
+                return await UploadNftImage(nft.OrderID, FilePath);
             }
+
             return null;
         }
 
-        /// <summary>
-        /// Add default ADA wallet
-        /// </summary>
-        /// <param name="WalletAddress"></param>
-        /// <param name="WalletName"></param>
-        /// <returns></returns>
-        public async Task<Wallet?> CreateWallet(string WalletAddress, string WalletName)
-        {
 
-            var nftData = new
-            {
-                wallet_address = WalletAddress,// Valid ADA address
-                wallet_name = WalletName,//Friendly name
-            };
-            var nft = JsonSerializer.Serialize(nftData);
-            var request = new HttpRequestMessage(HttpMethod.Post, "wallet");
-            var requestContent = new StringContent(nft, Encoding.UTF8);
-            requestContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            request.Content = requestContent;
-            using (var response = await _restApiClient.SendAsync(request))
-            {
-                response.EnsureSuccessStatusCode();
-                var body = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<Wallet>($"{body}");
-            }
 
-        }
-
-        /// <summary>
-        /// Step #1: Get Default Wallet
-        /// </summary>
-        /// <returns></returns>
-        public async Task<List<Wallet>?> GetWallets()
-        {
-            var request = new HttpRequestMessage(HttpMethod.Get, "wallet/list");
-            var requestContent = new StringContent("");
-            requestContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            request.Content = requestContent;
-            using (var response = await _restApiClient.SendAsync(request))
-            {
-                response.EnsureSuccessStatusCode();
-                var body = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<List<Wallet>>($"{body}");
-            }
-        }
 
         /// <summary>
         /// Step #2: Create NFT
         /// </summary>
         /// <param name="TokenName"></param>
         /// <param name="Description"></param>
-        /// <param name="WalletID"></param>
+        /// <param name="PassPhrase"></param>
         /// <returns></returns>
-        public async Task<Nft?> CreateNft(string TokenName, string Description, int? WalletID)
+        public async Task<Nft?> CreateNft(string TokenName, string Description, string PassPhrase)
         {
 
             var nftData = new
             {
                 token_name = TokenName,//"MyAwesomeNFT",(don't use space or any other character)
                 description = Description,//"This is my first NFT using SCEZ REST api",
-                wallet_id = WalletID //Get from wallet list
+                wallet_passphrase = PassPhrase //Secret passphrase
             };
             var nft = JsonSerializer.Serialize(nftData);
             var request = new HttpRequestMessage(HttpMethod.Post, "nft");
@@ -153,12 +104,12 @@ namespace aspnet_dotnet
         }
 
         /// <summary>
-        /// Fetch Wallet Balance and Profile Data
+        /// Get my-wallet
         /// </summary>
         /// <returns></returns>
-        public async Task<WalletBalance?> GetWalletBalance()
+        public async Task<MyWallet?> GetMyWallet()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, "wallet/balance");
+            var request = new HttpRequestMessage(HttpMethod.Get, "wallet/my-wallet");
             var requestContent = new StringContent("");
             requestContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             request.Content = requestContent;
@@ -166,7 +117,7 @@ namespace aspnet_dotnet
             {
                 response.EnsureSuccessStatusCode();
                 var body = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<WalletBalance>($"{body}");
+                return JsonSerializer.Deserialize<MyWallet>($"{body}");
             }
 
 

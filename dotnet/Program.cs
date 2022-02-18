@@ -1,42 +1,43 @@
 ﻿using aspnet_dotnet;
 using System.Diagnostics;
+using System.Reflection;
 using System.Text.Json;
 
-string ApiKey = "21140209e56752bfcdd10e5c34ce74e8"; //Get from dashboard
-string BaseUrl = "https://api-test.smartcontractsez.com/api/v1/"; //For mainnet, use https://api.smartcontractsez.com/api/v1/
+string ApiKey = "a9c8ea62789e994f89aec47cde8d1080"; //Get from dashboard
+string BaseUrl = "https://api-test.smartcontractsez.com/api/v2/"; //For mainnet, use https://api.smartcontractsez.com/api/v2/
 var scezClient = new ScezClient(ApiKey, BaseUrl);
 
-//Get wallet balance and profile data
-var wallet = await scezClient.GetWalletBalance();
-Console.WriteLine(JsonSerializer.Serialize(wallet));
+//Get my-wallet data
+//Find out if wallet is created and passphrase is set
+var wallet = await scezClient.GetMyWallet();
 Console.Write(Environment.NewLine);
 
-//Get nft orders
-var nftOrders = await scezClient.GetNftOrders();
-//Console.WriteLine(JsonSerializer.Serialize(nftOrders));
-//Console.Write(Environment.NewLine);
-
-//Get transactions
-var txn = await scezClient.GetTransactions();
-//Console.WriteLine(JsonSerializer.Serialize(txn));
-//Console.Write(Environment.NewLine);
-
-//If DefaultWalletId > 0 then go ahead else add new wallet address where minted NFT will be sent 
-if (wallet?.DefaultWalletId <= 0)
+if (wallet?.IsPassPhrase == false)
 {
-    Console.WriteLine("Enter a valid ADA address address where minted NFT will be sent");
-    var WalletAddress = Console.ReadLine() ?? "";
-    var WalletName = "default";
-    await scezClient.CreateWallet(WalletAddress, WalletName);
+    Console.WriteLine("Wallet passphrase is not set. Not allowed to make transactions!");
+    Console.WriteLine("Please login to dashbord to set your passphrase");
+    Console.ReadKey();
+
+}
+else
+{
+
+    string nftImagesPath = @"..\..\..\NftImages\"; //Set full path if any issue
+
+    //Mint NFT
+    var TokenName = "MyAwesomeNFT";
+    var Description = "This is my Awesome NFT";
+    var PassPhrase = "123456"; //Keep it safe and secure
+    var FileName = "logo100.png";
+    var FilePath = nftImagesPath + FileName;
+    var nftImage = await scezClient.MintNft(TokenName, Description, FilePath, PassPhrase);
+    Console.WriteLine(JsonSerializer.Serialize(nftImage));
+
 }
 
-//Mint NFT
-var TokenName = "MyAwesomeNFT";
-var Description = "This is my Awesome NFT";
-var FileName = "logo100.png";
-var FilePath = Path.Combine(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName), FileName);
-var nftImage = await scezClient.MintNft(TokenName, Description, FilePath);
-Console.WriteLine(JsonSerializer.Serialize(nftImage));
+
+
+
 
 
 
