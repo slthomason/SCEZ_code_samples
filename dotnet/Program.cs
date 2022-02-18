@@ -15,7 +15,7 @@ Console.Write(Environment.NewLine);
 if (wallet?.IsPassPhrase == false)
 {
     Console.WriteLine("Wallet passphrase is not set. Not allowed to make transactions!");
-    Console.WriteLine("Please login to dashbord to set your passphrase");
+    Console.WriteLine("Please login to dashbord to set your wallet passphrase");
     Console.ReadKey();
 
 }
@@ -27,7 +27,7 @@ else
     //Mint NFT
     var TokenName = "MyAwesomeNFT";
     var Description = "This is my Awesome NFT";
-    var PassPhrase = "123456"; //Keep it safe and secure
+    var PassPhrase = "123456"; //Wallet passphrase - Keep it safe and secure
     var FileName = "logo100.png";
     var FilePath = nftImagesPath + FileName;
     var nftImage = await scezClient.MintNft(TokenName, Description, FilePath, PassPhrase);

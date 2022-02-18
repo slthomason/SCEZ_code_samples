@@ -16,12 +16,6 @@
             </div>
             <div class="col-8">
                 <form method="post" enctype="multipart/form-data">
-
-                    @if (Model.WalletBalance?.DefaultWalletId <= 0)
-                    {
-                        <input id="txtWalletAddress" asp-for="NftModel.WalletAddress" type="text" class="form-control" placeholder="Enter default wallet address" />
-                        <br />
-                    }
                     <select id="ddlNetType" asp-for="NftModel.NetworkType" class="form-control">
                         <option value="testnet">Testnet</option>
                         <option value="mainnet">Mainnet</option>
@@ -30,6 +24,8 @@
                     <input id="txtTokenName" asp-for="NftModel.TokenName" type="text" class="form-control" placeholder="Enter token name" />
                     <br />
                     <input id="txtDescription" asp-for="NftModel.Description" type="text" class="form-control" placeholder="Enter NFT description" />
+                    <br />
+                      <input id="txtDescription" asp-for="NftModel.PassPhrase" type="password" class="form-control" placeholder="Enter Wallet PassPhrase" />
                     <br />
                     <input type="file" asp-for="NftModel.FormFile" />
                     <br />
