@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json;
 
-string ApiKey = "a9c8ea62789e994f89aec47cde8d1080"; //Get from dashboard
+string ApiKey = "25d55ad283aa400af464c76d713c07ad"; //Get from dashboard
 string BaseUrl = "https://api-test.smartcontractsez.com/api/v2/"; //For mainnet, use https://api.smartcontractsez.com/api/v2/
 var scezClient = new ScezClient(ApiKey, BaseUrl);
 
@@ -27,7 +27,7 @@ else
     //Mint NFT
     var TokenName = "MyAwesomeNFT";
     var Description = "This is my Awesome NFT";
-    var PassPhrase = "123456"; //Wallet passphrase - Keep it safe and secure
+    var PassPhrase = "12345678"; //Wallet passphrase - Keep it safe and secure
     var FileName = "logo100.png";
     var FilePath = nftImagesPath + FileName;
     var nftImage = await scezClient.MintNft(TokenName, Description, FilePath, PassPhrase);
