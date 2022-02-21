@@ -61,7 +61,7 @@ class ScezClient
 
 
     //Create nft
-    function createNft($tokenName, $tokenDescription, $walletId)
+    function createNft($tokenName, $tokenDescription)
     {
         $curl = curl_init();
 
@@ -73,7 +73,7 @@ class ScezClient
             CURLOPT_TIMEOUT => 60,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "{\n  \"token_name\": \"$tokenName\",\n  \"description\": \"$tokenDescription\",\n  \"wallet_id\": \"$walletId\" \n}",
+            CURLOPT_POSTFIELDS => "{\n  \"token_name\": \"$tokenName\",\n  \"description\": \"$tokenDescription\",\n}",
             CURLOPT_HTTPHEADER => [
                 "x-api-key: $this->apiKey",
                 "Content-Type: application/json"
