@@ -4,8 +4,8 @@ class ScezClient
 {
 
 
-    var $apiKey = "21140209e56752bfcdd10e5c34ce74e8"; //Get from dashboard
-    var $baseUrl = "https://api-test.smartcontractsez.com/api/v1/"; //For mainnet, use https://api.smartcontractsez.com/api/v1/
+    var $apiKey = "25d55ad283aa400af464c76d713c07ad"; //Get from dashboard
+    var $baseUrl = "https://api-test.smartcontractsez.com/api/v2/"; //For mainnet, use https://api.smartcontractsez.com/api/v2/
 
 
 
@@ -14,33 +14,28 @@ class ScezClient
     function mintNft($tokenName, $tokenDescription, $filePath)
     {
 
-        //Step #1: Get Default Wallet(Where minted NFT will be sent)
-        //Just to ensure wallet exists
-        $wallets =  $this->getWallets();
-        if ($wallets != null) {
-
-            //Take first wallet address
-            $obj = json_decode($wallets, true);
-            $walletID  = $obj[0]["id"];
-            //Step #2: Create NFT
-            $order =  json_decode($this->createNft($tokenName, $tokenDescription, $walletID));
-            //Step #3: Upload NFT Image
+        //Step #1: Create NFT
+        $order =  json_decode($this->createNft($tokenName, $tokenDescription));
+        if ($order != null) {
+            //Step #2: Upload NFT Image
             $nftImage =  $this->uploadNftImage($order->OrderID, $filePath);
 
             echo $nftImage;
         }
+           
+       
     }
 
 
 
-    ///Get list of wallets
-    function getWallets()
+    ///Get my-wallet
+    function getMyWalletData()
     {
         $curl = curl_init();
 
         curl_setopt_array($curl, [
             CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_URL => $this->baseUrl . "wallet/list",
+            CURLOPT_URL => $this->baseUrl . "wallet/my-wallet",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_TIMEOUT => 60,
