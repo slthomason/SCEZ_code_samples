@@ -1,6 +1,8 @@
 # SCEZ_code_samples
 Smart Contracts Made Easy code samples
 
+#Note: dotnet and aspnet_dotnet code samples require latest Visual Studio 2022 or latest MSbuild v17+
+
 #Documentation
 https://doc.smartcontractsez.com/
 
