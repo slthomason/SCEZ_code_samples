@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aspnet_dotnet", "aspnet_dot
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "web", "web\", "{7DEC0652-61E9-4221-801C-05C8A2F1A732}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_64262"
 		Debug.AspNetCompiler.PhysicalPath = "web\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_64262\"
@@ -30,7 +30,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "web", "web\", "{7DEC0652-61
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "php", "php\", "{22636276-DD98-4382-BE5A-DF8CFCE65D30}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_55380"
 		Debug.AspNetCompiler.PhysicalPath = "php\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_55380\"

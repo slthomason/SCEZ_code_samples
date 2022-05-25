@@ -66,10 +66,19 @@ namespace aspnet_dotnet
             request.Content = requestContent;
             using (var response = await _restApiClient.SendAsync(request))
             {
-                response.EnsureSuccessStatusCode();
-                var body = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<Nft>($"{body}");
+                try
+                {
+                    var body = await response.Content.ReadAsStringAsync();
+                    return JsonSerializer.Deserialize<Nft>($"{body}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
+
             }
+
+            return null;
 
         }
 
@@ -96,10 +105,18 @@ namespace aspnet_dotnet
 
             using (var response = await _restApiClient.PostAsync($"nft/asset/upload?order_id={OrderID}", multipartContent))
             {
-                response.EnsureSuccessStatusCode();
-                var body = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<NftImage>($"{body}");
+                try
+                {
+                    var body = await response.Content.ReadAsStringAsync();
+                    return JsonSerializer.Deserialize<NftImage>($"{body}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
             }
+
+            return null;
 
         }
 
@@ -115,10 +132,18 @@ namespace aspnet_dotnet
             request.Content = requestContent;
             using (var response = await _restApiClient.SendAsync(request))
             {
-                response.EnsureSuccessStatusCode();
-                var body = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<MyWallet>($"{body}");
+                try
+                {
+                    var body = await response.Content.ReadAsStringAsync();
+                    return JsonSerializer.Deserialize<MyWallet>($"{body}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
             }
+
+            return null;
 
 
         }
@@ -135,10 +160,17 @@ namespace aspnet_dotnet
             request.Content = requestContent;
             using (var response = await _restApiClient.SendAsync(request))
             {
-                response.EnsureSuccessStatusCode();
-                var body = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<List<NftOrder>>($"{body}");
+                try
+                {
+                    var body = await response.Content.ReadAsStringAsync();
+                    return JsonSerializer.Deserialize<List<NftOrder>>($"{body}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
             }
+            return null;
         }
 
         /// <summary>
@@ -153,10 +185,17 @@ namespace aspnet_dotnet
             request.Content = requestContent;
             using (var response = await _restApiClient.SendAsync(request))
             {
-                response.EnsureSuccessStatusCode();
-                var body = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<List<Transactions>>($"{body}");
+                try
+                {
+                    var body = await response.Content.ReadAsStringAsync();
+                    return JsonSerializer.Deserialize<List<Transactions>>($"{body}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
             }
+            return null;
         }
 
 
